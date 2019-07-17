@@ -30,18 +30,22 @@
     return YES;
 }
 
+#pragma mark -
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_9_0
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     //处理支付结果
     [BNPayTool.shared handlePaymentResultOpenURL:url];
     return YES;
 }
-
+#else
 -(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
     //处理支付结果
-    [BNPayTool.shared handlePaymentResultOpenURL:url];
+    [BNPayTool.shared handlePayResultOpenURL:url];
     return YES;
 }
-//
+#endif
+
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.

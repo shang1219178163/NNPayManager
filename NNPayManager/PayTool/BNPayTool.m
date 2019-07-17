@@ -17,6 +17,16 @@
 
 @implementation BNPayTool
 
++(BNPayTool *)shared{
+    static BNPayTool * _instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _instance = [[BNPayTool alloc]init];
+        
+    });
+    return _instance;
+}
+
 /**
  微信支付注册
 
@@ -74,7 +84,7 @@
 /**
  *  回调入口
  */
-- (BOOL)handlePaymentResultOpenURL:(NSURL *)url{
+- (BOOL)handlePayResultOpenURL:(NSURL *)url{
 //    DDLog(@"url____\n%@",url);
 
     if ([url.host isEqualToString:@"safepay"]) {
@@ -340,17 +350,6 @@
         _payModel = [[BNPayModel alloc]init];
     }
     return _payModel;
-}
-
-+ (BNPayTool *)shared{
-    static BNPayTool * _instance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _instance = [[BNPayTool alloc]init];
-        
-    });
-    return _instance;
-    
 }
 
 @end

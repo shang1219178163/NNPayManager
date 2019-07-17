@@ -61,7 +61,7 @@ typedef void(^BlockPay)(id objc,id outTradeNo);
 /**
  *  回调入口
  */
-- (BOOL)handlePaymentResultOpenURL:(NSURL *)url;
+- (BOOL)handlePayResultOpenURL:(NSURL *)url;
 
 /**
  支付完成需要把返回的outtradeID给解析出来，给服务器二次确认
