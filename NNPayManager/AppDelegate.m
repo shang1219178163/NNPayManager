@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 
-#import "BNPayToolConfig.h"
+#import "NNPayManager.h"
 
 @interface AppDelegate ()
 
@@ -35,13 +35,13 @@
 #if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_9_0
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     //处理支付结果
-    [BNPayTool.shared handlePaymentResultOpenURL:url];
+    [NNPayManager.shared handlePaymentResultOpenURL:url];
     return YES;
 }
 #else
 -(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
     //处理支付结果
-    [BNPayTool.shared handlePayResultOpenURL:url];
+    [NNPayManager.shared handlePayResultOpenURL:url];
     return YES;
 }
 #endif

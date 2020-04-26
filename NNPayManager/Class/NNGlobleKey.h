@@ -1,13 +1,13 @@
 //
-//  Globle_Key.h
+//  NNGlobleKey.h
 //  WeiHouBao
 //
 //  Created by hsf on 2017/12/28.
 //  Copyright © 2017年 WeiHouKeJi. All rights reserved.
 //
 
-#ifndef Globle_Key_h
-#define Globle_Key_h
+#ifndef NNGlobleKey_h
+#define NNGlobleKey_h
 
 #pragma mark - -极光
 
@@ -67,4 +67,4 @@
 #define kAppKey_QQ              @""
 
 
-#endif /* Globle_Key_h */
+#endif /* NNGlobleKey_h */

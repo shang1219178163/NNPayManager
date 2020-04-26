@@ -8,8 +8,7 @@
 
 #import "MainViewController.h"
 
-#import "BNPayToolConfig.h"
-#import "BNWXSignModel.h"
+#import "NNPayManager.h"
 
 #import "NextViewController.h"
 
@@ -33,94 +32,67 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"银行卡" style:UIBarButtonItemStyleDone target:self action:@selector(handleActionSender:)];
     
-    /*调用前先配置根据官方文档配置schem*/
-    /*
-    //发起支付->接口返回响应模型数据(支付宝为签名字符串,微信为json模型数据)
-    //阿里
-    WHKNetMoneyMsgSignModel * signModel = nil;
-    [self handlePayALI:signModel];
-    //微信(需要检查参数是否为空)
-    if ([self isParamsRight:signModel]) {
-        [self handlePayWX:signModel];
-        
-    }
-    */
 }
 
 - (void)handleActionSender:(UIBarButtonItem *)sender{
-    
-    
-}
-
-- (void)handlePayALI:(BNWXSignModel *)signModel{
-
-    NSString * signedString = signModel.sign;
-    [BNPayTool.shared payALIParam:signedString handler:^(id objc,id outTradeNo) {
-        DDLog(@"reslut = %@",objc);
-        
-        //支付结果以后台为准,无论本地返回成功失败
-        //        [self requestWithInterfaceRank:@"1" pageIndex:0];
-        
-        
-    }];
-}
-
-
-- (void)handlePayWX:(BNWXSignModel *)signModel{
-    
-    NSMutableDictionary * mdict = [NSMutableDictionary dictionaryWithCapacity:0];
-    
-    [mdict setSafeObjct:signModel.noncestr forKey:kWX_noncestr];
-    [mdict setSafeObjct:signModel.package forKey:kWX_package];
-    [mdict setSafeObjct:signModel.partnerid forKey:kWX_partnerid];
-    [mdict setSafeObjct:signModel.prepayid forKey:kWX_prepayid];
-    [mdict setSafeObjct:signModel.sign forKey:kWX_sign];
-    [mdict setSafeObjct:@(signModel.timestamp) forKey:kWX_timestamp];
-    
-    [mdict setSafeObjct:signModel.appid forKey:@"appid"];
-    
-    [BNPayTool.shared payWXParam:mdict handler:^(id objc,id outTradeNo) {
-        DDLog(@"reslut = %@",objc);
-        //支付结果以后台为准,无论本地返回成功失败
-//        [self requestWithInterfaceRank:@"1" pageIndex:0];
-        
-    }];
-    
-}
-
-- (BOOL)isParamsRight:(BNWXSignModel *)signModel{
-    if (![signModel.noncestr validObject]) {
-        return NO;
-    }
-    
-    if (![signModel.package validObject]) {
-        return NO;
-    }
-    
-    if (![signModel.partnerid validObject]) {
-        return NO;
-    }
-    
-    if (![signModel.prepayid validObject]) {
-        return NO;
-    }
-    
-    if (![signModel.sign validObject]) {
-        return NO;
-    }
-    
-    if (![[@(signModel.timestamp) stringValue] validObject]) {
-        return NO;
-    }
-    return YES;
-}
-
-
-- (void)handleActionBtn:(UIBarButtonItem *)sender{
     NextViewController *viewController = [[NextViewController alloc]init];
     [self.navigationController pushViewController:viewController animated:YES];
     
 }
+
+- (void)jumpAliApp:(NSDictionary *)jsonData orderno:(NSString *)orderno{
+    NSString *tn = jsonData[@"tn"];
+    NSData *data = [tn dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error = nil;
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+    if (error) {
+        [UIAlertController showAletTitle:@"提示" msg:error.description handler:nil];
+        return ;
+    }
+    
+    if (![dic.allKeys containsObject:@"sign"]) {
+        [UIAlertController showAletTitle:@"提示" msg:@"签名错误!" handler:nil];
+        return ;
+    }
+    
+    [NNPayManager.shared payALI:dic[@"sign"] orderno:orderno handler:^(id  _Nonnull obj, NSString * _Nonnull orderno, BOOL success) {
+        if (!orderno) {
+            [UIAlertController showAletTitle:@"提示" msg:@"订单号不能为空!" handler:nil];
+            return ;
+        }
+//        DDLog(@"reslut = %@", obj);
+        [self requestForOrderStatus:orderno obj: obj];
+    }];
+}
+
+- (void)jumpWXApp:(NSDictionary *)jsonData orderno:(NSString *)orderno{
+    NSString *tn = jsonData[@"tn"];
+    NSData *data = [tn dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error = nil;
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+    if (error) {
+        [UIAlertController showAletTitle:@"提示" msg:error.description handler:nil];
+        return ;
+    }
+    
+    [NNPayManager.shared payWX:dic orderno:orderno handler:^(id  _Nonnull obj, NSString * _Nonnull orderno, BOOL success) {
+//        DDLog(obj);
+        if (!orderno) {
+            [UIAlertController showAletTitle:@"提示" msg:@"订单号不能为空!" handler:nil];
+            return ;
+        }
+        [self requestForOrderStatus:orderno obj: obj];
+    }];
+}
+
+- (void)requestForOrderStatus:(NSString *)outTradeNo obj:(id)obj{
+
+}
+
+- (BOOL)isParamsRight:(NSDictionary *)dic{
+    return YES;
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

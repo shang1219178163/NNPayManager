@@ -1,6 +1,6 @@
 //
 //  PrefixHeader.pch
-//  BNPayTool
+//  NNPayManager
 //
 //  Created by Bin Shang on 2019/7/17.
 //  Copyright © 2019 BIN. All rights reserved.
@@ -14,9 +14,8 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
-#import "BNGloble.h"
-#import "BNKit.h"
-#import "BNCategory.h"
+#import "UIAlertController+Ext.h"
 
+#import <NNGloble/NNGloble.h>
 
 #endif /* PrefixHeader_pch */

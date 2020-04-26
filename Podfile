@@ -5,10 +5,10 @@ target 'NNPayManager' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
+  pod 'AlipaySDK-iOS'
+
   # Pods for NNPayManager
-  pod 'BNGloble'
-  pod 'BNKit'
-  pod 'BNCategory'
+  pod 'NNGloble'
   
   pod 'YBAttributeTextTapAction'
   
