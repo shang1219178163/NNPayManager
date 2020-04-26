@@ -10,6 +10,6 @@ target 'NNPayManager' do
   # Pods for NNPayManager
   pod 'NNGloble'
   
-  pod 'YBAttributeTextTapAction'
+#  pod 'YBAttributeTextTapAction'
   
 end

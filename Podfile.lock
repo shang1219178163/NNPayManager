@@ -1,24 +1,20 @@
 PODS:
   - AlipaySDK-iOS (15.7.4)
   - NNGloble (1.5.5.1)
-  - YBAttributeTextTapAction (3.0.3)
 
 DEPENDENCIES:
   - AlipaySDK-iOS
   - NNGloble
-  - YBAttributeTextTapAction
 
 SPEC REPOS:
   trunk:
     - AlipaySDK-iOS
     - NNGloble
-    - YBAttributeTextTapAction
 
 SPEC CHECKSUMS:
   AlipaySDK-iOS: 8659cdb4403de7e5f26ad8b699864a9cbe53384c
   NNGloble: 931f8266fa7f2306210a4849ba24e8d72b5d7816
-  YBAttributeTextTapAction: b7e61f0265b5673e7ce7bad7319e8eff9e209a2b
 
-PODFILE CHECKSUM: e40facb95585589b53b1d34ede13bed4ce97e74b
+PODFILE CHECKSUM: 71f3134747f318d14b9b3075784d67ed37b01ca5
 
 COCOAPODS: 1.9.1
