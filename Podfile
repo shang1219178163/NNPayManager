@@ -6,10 +6,9 @@ target 'NNPayManager' do
   use_frameworks!
 
   pod 'AlipaySDK-iOS'
+#  pod 'WechatOpenSDK' // 需要支持 Universal Links
 
   # Pods for NNPayManager
   pod 'NNGloble'
-  
-#  pod 'YBAttributeTextTapAction'
-  
+    
 end
